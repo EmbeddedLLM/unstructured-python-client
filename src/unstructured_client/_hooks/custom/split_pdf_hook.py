@@ -60,6 +60,29 @@ def get_optimal_split_size(num_pages: int, concurrency_level: int) -> int:
 
 
 def run_async_in_thread(coro):
+    """
+    Execute an asyncio coroutine in a separate thread with a new event loop.
+
+    This function creates a new thread and runs the provided coroutine in that thread
+    using a new event loop. This is useful for running asyncio code in environments
+    where you can't or don't want to modify the main event loop, or when you need to
+    run asyncio code from synchronous contexts.
+
+    Args:
+        coro (Coroutine): The asyncio coroutine to be executed.
+
+    Returns:
+        Any: The result of the coroutine execution.
+
+    Raises:
+        Any exception that the coroutine might raise will be propagated.
+
+    Note:
+        - This function creates a new thread for each call.
+        - The new event loop is properly shut down after the coroutine completes.
+        - This approach isolates the asyncio operations from the main thread's event loop.
+    """
+    
     def wrapper():
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
