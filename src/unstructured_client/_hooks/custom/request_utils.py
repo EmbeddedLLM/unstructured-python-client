@@ -90,8 +90,8 @@ async def call_api_async(
         try:
             response = await client.send(new_request)
             return response.status_code, response.json()
-        except Exception as e:
-            logger.error("Failed to send request for page %d: %s", page_number, e)
+        except Exception:
+            logger.error("Failed to send request for page %d", page_number)
             return 500, {}
 
 
